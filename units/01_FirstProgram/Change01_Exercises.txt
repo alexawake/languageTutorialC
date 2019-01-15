@@ -1,0 +1,43 @@
+
+Issue 1 (easy)
+
+   In the main program if we call again the function giveChange twice
+
+      ...   
+      giveChange (170);
+      giveChange (170);
+      
+   we will get the same change although we don't have enter any coin yet
+   
+   Why ? Fix the problem
+   
+Issue 2 (hard)
+
+   In the situation when the change is not possible
+   the program just output the message "change not possible"
+   but it does not return the input coins back!
+   
+   - Fix it without changing the data structure (using no more variables)
+   - Fix it changing the data structure
+   
+   which is the best solution ?  
+   
+Issue 3 (easy to normal)
+
+   Optimization: The change can be calculated with no loop at all
+   yet in a similar way but in one step for each coin
+   
+Issue 4 (easy to hard to very hard)
+
+   The algorithm cannot return money back in some cases. For instance
+   
+   supposing 
+   
+      slot1E  = 5
+      slot50C = 5
+      slot20C = 5
+      
+   and having to provide a change of 60 cents, the current program will
+   return 50 cents first and for the remaining 10 cents there is no combination possible
+   whereas if returning 3 coins of 20 cents would fix the problem.
+

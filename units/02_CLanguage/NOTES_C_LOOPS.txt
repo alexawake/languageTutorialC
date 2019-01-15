@@ -1,0 +1,42 @@
+
+if
+else
+
+switch
+case
+default
+
+break
+continue
+
+do
+for
+return
+while
+
+========  FLOW AND LOOPS 
+
+
+--- Boolean and conditions
+
+C has no boolean type but "char" is used instead being the values 0 equivalent to "false"
+and any other "true". Conditions has to end in a boolean value either through a numeric
+value or an boolean expression where following operators over the operands "a" and "b" can be used
+
+   ! a      not (where !true is false and !false is true)
+   a == b   equal
+   a != b   different
+   a >  b   greater than
+   a >= b   greater than or equal
+   a <  b   less than
+   a <= b   less than or equal
+   a && b   logical and (&& avoids the evaluation of the second operator if first is 0)
+   a || b   logical or  (|| avoids the evaluation of the second operator if first is 1)
+   a ^  b   logical xor
+
+where "a" and "b" has to have same or convertible type. But not all types support these operators.
+
+For instance strings, since they are basically pointers, cannot be compared using "=="
+
+
+

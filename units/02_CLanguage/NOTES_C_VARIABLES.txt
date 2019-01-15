@@ -1,0 +1,101 @@
+
+
+========  VARIABLES
+
+
+--- VARIABLE DECLARATION
+
+Variable declaration has the syntax
+
+      TYPE VARIABLE_NAME;
+      
+or 
+      
+      TYPE VARIABLE_NAME = CONSTANT_VALUE;
+
+actually it can be declared multiple variables of the same type comma
+separated
+
+      TYPE VAR1, VAR2, VAR3;
+      
+but this "syntax sugar" is not used very often since is considered a bad coding style.
+
+Examples
+
+      const int RED = 100;
+      double a, b, c;
+      
+Variables are "filled" using the assignement operator "="
+
+      VARIABLE = CONSTANT_OR_EXPRESSION_OF_THE_SAME_TYPE_OF_THE_VARIABLE;
+
+      a = 3.14;
+      b = sin(a) - c * 6.;
+
+
+--- ARRAYS AND POINTERS
+
+Among single variables there is also the possibility of creating a set of N, being N a constant integer number,
+variables just within a single name. It is called "array"
+
+      TYPE ARRAY_NAME [N];
+      
+accessing elements in the variable is achieved using [] and given the index which has
+to be between 0 and N-1 (in total N elements)
+
+IMPORTANT NOTE!
+
+   Accessing an array with an invalid index (negative index or index >= N) is always an error
+   and may cause an arbitrary malfunction, damage of the data being used by the program and
+   also the program to crash.
+   
+   Therefore is a task of the developer to make all necessary checks before accessing arrays
+   and pointers (see later)
+   
+There is one "tricky" way in C to know the number of elements of a given array using sizeof twice
+
+      sizeof (ARRAY_NAME) / sizeof(ARRAY_BASE_TYPE)
+
+Example:
+
+      int coeff [200];
+      char myname [20];
+      
+      coeff[0] = 0;
+      coeff[1] = 1;
+      coeff[2] = -1;
+      coeff[3] = coeff[1] * 2;
+      
+      printf ("there are %d coefficients", sizeof(coefficients)/sizeof(int));
+      
+      
+An array of "char" is called "string" and the content is a text that has to be finished with a 0 (NULL)
+which is called "null terminated string".
+
+Example:
+
+      char myname [40];
+      
+      myname [0] = 'A'; // a constant char can be written using '' or an integer between 0 and 255
+      myname [1] = 'l';
+      myname [2] = 'e';
+      myname [3] = 'x';
+      myname [4] = 0;
+      
+strings can be manipulated by means of the string library and always with care of not writing 
+outside the size of the string!
+
+      #include <string.h>
+      ...
+
+      strcpy (myname, "Alex");         // copy the string (constant using "")
+      strcat (myname, " Xalabarder");  // concatenate (add the two strings)
+      
+
+Arrays can have multiple dimensions as well, for example
+
+      int matrix[3][3] = { 
+                       { 1, 0, 0 }, 
+                       { 0, 1, 0 }, 
+                       { 0, 0, 1 }, 
+                       } ;
