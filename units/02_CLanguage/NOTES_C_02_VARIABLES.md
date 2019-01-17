@@ -55,14 +55,14 @@ accessible using a index between 0 and N-1 (in total N elements)
 
 ### IMPORTANT NOTE!
 
-   Accessing an array with an invalid index (negative index or index >= N) is always an error
-   and may cause an arbitrary malfunction, damage of the data being used by the program and
-   also the program to crash.
+Accessing an array with an invalid index (negative index or index >= N) is always an error
+and may cause an arbitrary malfunction, damage of the data being used by the program and
+also the program to crash.
 
-   Therefore is a task of the developer to make all necessary checks before accessing arrays
-   and pointers (see later)
+Therefore is a task of the developer to make all necessary checks before accessing arrays
+and pointers (see later)
 
-### Size of an array#
+### Size of an array
 
 In C there is no way to know the size of an array but using the tricky formula
 

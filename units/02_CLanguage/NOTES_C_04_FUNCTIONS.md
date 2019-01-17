@@ -6,7 +6,6 @@ In C we actually have code only in functions.
 
 The general syntax is for defining a function is
 
-
       TYPE_TO_RETURN FUNCTION_NAME (PARAMETERS)
       {
          BODY_STATEMENTS;

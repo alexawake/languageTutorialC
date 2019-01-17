@@ -163,25 +163,25 @@ The way to compare two strings in C is using "strcmp" and can be summarized as f
 
 ### Note about && and ||
 
-Usually using && or || is faster than using single & or | but is specially important
-to pay attentin in what to do when evaluating boolean functions. For example
+Usually using && or || is faster than using single & or | but it is od special importance
+to pay attention in what to do when evaluating boolean functions. For example
 
 
-         if (evaluateA () && evaluateB ()) ...
+         if (evaluate_A () && evaluate_B ()) ...
          
-will only call evaluateB if evaluateA returns "true", while
+will only call evaluate_B if evaluate_A returns "true", while
 
-         if (evaluateA () & evaluateB ()) ...
+         if (evaluate_A () & evaluate_B ()) ...
          
 will call both functions and the make the logical operation AND with the results.
 
 Similarly for 
          
-         if (evaluateA () || evaluateB ()) ...
+         if (evaluate_A () || evaluate_B ()) ...
          
-evaluateB only will be called when evaluateA returns "false", and with
+here evaluate_B only will be called when evaluate_A returns "false", and with
 
-         if (evaluateA () | evaluateB ()) ...
+         if (evaluate_A () | evaluate_B ()) ...
          
-both will be called.
+both will be called regardless of its returned values.
 
