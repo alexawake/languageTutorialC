@@ -1,11 +1,10 @@
-========  TYPES
+# Types 
 
 C is a typed language, variables have to be declared from a specific type.
 Operation between variables and function calls (parameters) will be checked
 to match the correct type by the compiler.
 
-
---- Basic types in C
+## Basic types in C
 
 The basic types given in C are
 
@@ -34,14 +33,16 @@ types can be preceded by some modifiers
       static         the variable or function is not visible out of the compilation unit (different meaning in C++ !)
       extern         the variable or function is declared in another compilation unit
 
-Examples
+### Examples
 
      const int eigth = 8;
      unsigned long counter = 0;
      const unsigned double pi = 3.14159;
      extern int globalCounter;
 
---- Custom types
+## Custom types
+
+### Enumeration
 
 Enumeration is a custom type used for constant values of type integer or char
 
@@ -69,6 +70,8 @@ The enum above could be achieved using variables as
       const int RED = 0;
       const int BLUE = 0;
       const int YELLOW = 0;
+      
+### Struct
 
 A more powerful custom type is accomplished with the "struct" keyword where the type
 define a set of fields to be contained in the variable.
@@ -102,7 +105,7 @@ Example:
       typedef struct Rectangle Rectangle;
 
 
---- Facilities with types
+## Facilities with types
 
 All types, even custom ones can be renamed, or better said, create an alias by using "typedef"
 
