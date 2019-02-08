@@ -15,3 +15,17 @@ online C compiler which includes a nice debugger as well
 
       https://www.onlinegdb.com/online_c_compiler
 
+## Other links
+
+Other liks of interest
+
+      https://en.cppreference.com/w/c
+      http://c-faq.com/index.html
+
+related with scanf vs fgets issue      
+      
+      http://c-faq.com/stdio/index.html
+      https://stackoverflow.com/a/2430978/1191101
+      https://stackoverflow.com/a/2430957/1191101
+
+

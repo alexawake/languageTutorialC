@@ -1,9 +1,5 @@
 # mini programs
 
-
-
-   https://en.cppreference.com/w/c
-   
    
 ## Showing the program arguments
 
@@ -11,11 +7,11 @@ This example prints out all given arguments to the program when is called.
 
       #include <stdio.h>
 
-      int main (int nn, char ** aa)
+      int main (int argCounter, char ** argValues)
       {
          printf ("Program arguments :\n");
-         for (int indx = 0; indx < nn; indx ++)
-            printf ("%d) [%s]\n", indx, aa[indx]);
+         for (int indx = 0; indx < argCounter; indx ++)
+            printf ("%d) [%s]\n", indx, argValues[indx]);
       }
       
 
