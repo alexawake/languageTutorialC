@@ -1,0 +1,119 @@
+#include <stdio.h>
+
+//start bei [1][5], ende bei [5][1]
+const short int labyrinth[7][7] =  //labyrinth[x][y]
+{ // y ------------------->
+   { 1, 1, 1, 1, 1, 1, 1 }, // x
+   { 1, 0, 0, 1, 1, 0, 1 }, // |
+   { 1, 1, 0, 0, 1, 0, 1 }, // |
+   { 1, 0, 1, 0, 1, 0, 1 }, // |
+   { 1, 0, 0, 0, 1, 0, 1 }, // |
+   { 1, 0, 1, 0, 0, 0, 1 }, // |
+   { 1, 1, 1, 1, 1, 1, 1 }  // \/
+};
+
+int stepCounter = 0;
+
+int posX = 1;
+int posY = 5;
+const int endPosX = 5;
+const int endPosY = 1;
+short int output[7][7];
+
+char empty;
+
+
+void solve_labyrinth() //mache nächsten Schritt
+{
+   stepCounter++;
+
+   //Umgebung abtasten und laufen, falls neuer Weg frei
+   for (int i = -1; i < 2; i += 2)
+   {
+      //drüber, drunter
+      if (labyrinth[posX + i][posY] == 1)  //wenn Weg versperrt
+      { 
+         output[posX + i][posY] += 100;  //zeige, dass als Mauer erkannt 
+      } 
+      else if (output[posX + i][posY] == 0)  //wenn Weg frei und noch nicht betreten
+      {
+         posX += i;  //setze Position auf freies Feld
+         output[posX][posY] += 1;  //markiere als einmal betretenes Feld
+         return;
+      }
+
+      //links, rechts
+      if (labyrinth[posX][posY + i] == 1)  //wenn Weg versperrt
+      {
+         output[posX][posY + i] += 100;  //zeige, dass als Mauer erkannt 
+      }
+      else if (output[posX][posY + i] == 0)  //wenn Weg frei und noch nicht betreten
+      {
+         posY += i;  //setze Position auf freies Feld
+         output[posX][posY] += 1;  //markiere als einmal betretenes Feld
+         return;
+      }
+   }
+
+   //Wenn kein neuer Weg vorhanden, alten Weg zurück gehen und Position als Sackgasse definieren
+   for (int i = -1; i < 2; i += 2) 
+   {
+      //drüber, drunter
+      if ((output[posX + i][posY] > 0) && (output[posX + i][posY] < 10))  //wenn betretenes Feld
+      { 
+         output[posX][posY] = -1;  //markiere als Sackgasse
+         posX += i;  //setze Position auf bereits betretenes Feld
+         output[posX][posY] += 10;  //markiere als 2. mal betretenes Feld
+         return; 
+      }
+
+      //links, rechts
+      if ((output[posX][posY + i] > 0) && (output[posX][posY + i]  < 10))  //wenn betretenes Feld
+      {
+         output[posX][posY] = -1;  //markiere als Sackgasse
+         posY += i;  //setze Position auf bereits betretenes Feld
+         output[posX][posY] += 10;  //markiere als 2. mal betretenes Feld
+         return;
+      }
+   }
+}
+
+
+void main()
+{
+   //erstelle output array
+   for (int i = 0; i < 7; i++)
+   {
+      for (int j = 0; j < 7; j++)
+      {
+         output[i][j] = 0;
+      }
+   }
+   output[posX][posY] = 1;  //setze Startposition
+
+   do
+   {
+      solve_labyrinth();
+
+      printf_s("\n");
+
+      //Ausgabe des Wegs
+      for (int i = 0; i < 7; i++)
+      {
+         for (int j = 0; j < 7; j++)
+         {
+            printf_s("%3d ", output[i][j]);
+         }
+         printf_s("\n");
+      }
+      printf_s("posX: %d\n", posX);
+      printf_s("posY: %d\n", posY);
+
+      scanf_s("%c", &empty);
+      
+   } while (posX != endPosX || posY != endPosY);  //solange Position nicht erreicht
+
+   printf_s("\nDas angestrebte Ziel wurde erreicht.\n");
+   printf_s("Sie haben %d Schritte benoetigt.\n", stepCounter);
+   scanf_s("%c", &empty);
+}
