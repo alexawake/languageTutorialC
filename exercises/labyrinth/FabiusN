@@ -1,26 +1,35 @@
 #include <stdio.h>
 
-//start bei [1][5], ende bei [5][1]
-const short int labyrinth[7][7] =  //labyrinth[x][y]
-{ // y ------------------->
-   { 1, 1, 1, 1, 1, 1, 1 }, // x
-   { 1, 0, 0, 1, 1, 0, 1 }, // |
-   { 1, 1, 0, 0, 1, 0, 1 }, // |
-   { 1, 0, 1, 0, 1, 0, 1 }, // |
-   { 1, 0, 0, 0, 1, 0, 1 }, // |
-   { 1, 0, 1, 0, 0, 0, 1 }, // |
-   { 1, 1, 1, 1, 1, 1, 1 }  // \/
-};
+//start bei [0][0], ende bei [9][9]
+
+#define DIMX 10
+#define DIMY 10
+
+short int labyrinth [DIMX][DIMY] = {
+   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+   { 1, 0, 0, 1, 0, 1, 0, 0, 0, 1 },
+   { 1, 0, 1, 0, 0, 1, 0, 0, 1, 1 },
+   { 1, 0, 0, 1, 0, 0, 0, 0, 0, 1 },
+   { 1, 1, 0, 0, 0, 0, 1, 1, 0, 1 },
+   { 1, 0, 0, 0, 1, 0, 1, 1, 0, 1 },
+   { 1, 0, 0, 0, 0, 1, 1, 0, 1, 1 },
+   { 1, 1, 0, 1, 0, 0, 0, 0, 1, 1 },
+   { 1, 0, 0, 1, 1, 1, 1, 0, 0, 1 },
+   { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+   };
+
 
 int stepCounter = 0;
 
 int posX = 1;
-int posY = 5;
-const int endPosX = 5;
-const int endPosY = 1;
-short int output[7][7];
+int posY = 1;
+const int endPosX = 8;
+const int endPosY = 8;
+short int output[DIMX][DIMY];
 
 char empty;
+
+
 
 
 void solve_labyrinth() //mache nächsten Schritt
@@ -32,9 +41,9 @@ void solve_labyrinth() //mache nächsten Schritt
    {
       //drüber, drunter
       if (labyrinth[posX + i][posY] == 1)  //wenn Weg versperrt
-      { 
-         output[posX + i][posY] += 100;  //zeige, dass als Mauer erkannt 
-      } 
+      {
+         output[posX + i][posY] += 100;  //zeige, dass als Mauer erkannt
+      }
       else if (output[posX + i][posY] == 0)  //wenn Weg frei und noch nicht betreten
       {
          posX += i;  //setze Position auf freies Feld
@@ -45,7 +54,7 @@ void solve_labyrinth() //mache nächsten Schritt
       //links, rechts
       if (labyrinth[posX][posY + i] == 1)  //wenn Weg versperrt
       {
-         output[posX][posY + i] += 100;  //zeige, dass als Mauer erkannt 
+         output[posX][posY + i] += 100;  //zeige, dass als Mauer erkannt
       }
       else if (output[posX][posY + i] == 0)  //wenn Weg frei und noch nicht betreten
       {
@@ -56,15 +65,15 @@ void solve_labyrinth() //mache nächsten Schritt
    }
 
    //Wenn kein neuer Weg vorhanden, alten Weg zurück gehen und Position als Sackgasse definieren
-   for (int i = -1; i < 2; i += 2) 
+   for (int i = -1; i < 2; i += 2)
    {
       //drüber, drunter
       if ((output[posX + i][posY] > 0) && (output[posX + i][posY] < 10))  //wenn betretenes Feld
-      { 
+      {
          output[posX][posY] = -1;  //markiere als Sackgasse
          posX += i;  //setze Position auf bereits betretenes Feld
          output[posX][posY] += 10;  //markiere als 2. mal betretenes Feld
-         return; 
+         return;
       }
 
       //links, rechts
@@ -82,9 +91,9 @@ void solve_labyrinth() //mache nächsten Schritt
 int main()
 {
    //erstelle output array
-   for (int i = 0; i < 7; i++)
+   for (int i = 0; i < DIMX; i++)
    {
-      for (int j = 0; j < 7; j++)
+      for (int j = 0; j < DIMY; j++)
       {
          output[i][j] = 0;
       }
@@ -98,9 +107,9 @@ int main()
       printf("\n");
 
       //Ausgabe des Wegs
-      for (int i = 0; i < 7; i++)
+      for (int i = 0; i < DIMX; i++)
       {
-         for (int j = 0; j < 7; j++)
+         for (int j = 0; j < DIMY; j++)
          {
             printf("%3d ", output[i][j]);
          }
@@ -110,12 +119,12 @@ int main()
       printf("posY: %d\n", posY);
 
       scanf("%c", &empty);
-      
+
    } while (posX != endPosX || posY != endPosY);  //solange Position nicht erreicht
 
    printf("\nDas angestrebte Ziel wurde erreicht.\n");
    printf("Sie haben %d Schritte benoetigt.\n", stepCounter);
    scanf("%c", &empty);
-   
+
    return 0;
 }
