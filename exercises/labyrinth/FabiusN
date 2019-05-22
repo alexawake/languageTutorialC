@@ -29,7 +29,33 @@ short int output[DIMX][DIMY];
 
 char empty;
 
+int Kiselsteine [DIMX*DIMY]; // stack for backwards way
+int waydepth = 0;
 
+void forward (int incx, int incy)
+{
+   //Set Kiselsteine to remember the path
+   //
+   if (waydepth + 2 < DIMX*DIMY)
+   {
+      Kiselsteine[waydepth ++] = posX;
+      Kiselsteine[waydepth ++] = posY;
+   }
+   posX += incx;
+   posY += incy;
+}
+
+void backward ()
+{
+   //Get last Kiselsteine to go backwards
+   //
+   if (waydepth - 2 >= 0)
+   {
+      // first pop Y !!
+      posY = Kiselsteine[-- waydepth];
+      posX = Kiselsteine[-- waydepth];
+   }
+}
 
 
 void solve_labyrinth() //mache nächsten Schritt
@@ -46,7 +72,8 @@ void solve_labyrinth() //mache nächsten Schritt
       }
       else if (output[posX + i][posY] == 0)  //wenn Weg frei und noch nicht betreten
       {
-         posX += i;  //setze Position auf freies Feld
+         // posX += i;  //setze Position auf freies Feld
+         forward (i, 0);
          output[posX][posY] += 1;  //markiere als einmal betretenes Feld
          return;
       }
@@ -58,33 +85,18 @@ void solve_labyrinth() //mache nächsten Schritt
       }
       else if (output[posX][posY + i] == 0)  //wenn Weg frei und noch nicht betreten
       {
-         posY += i;  //setze Position auf freies Feld
+         // posY += i;  //setze Position auf freies Feld
+         forward (0, i);
          output[posX][posY] += 1;  //markiere als einmal betretenes Feld
          return;
       }
    }
-
-   //Wenn kein neuer Weg vorhanden, alten Weg zurück gehen und Position als Sackgasse definieren
-   for (int i = -1; i < 2; i += 2)
-   {
-      //drüber, drunter
-      if ((output[posX + i][posY] > 0) && (output[posX + i][posY] < 10))  //wenn betretenes Feld
-      {
-         output[posX][posY] = -1;  //markiere als Sackgasse
-         posX += i;  //setze Position auf bereits betretenes Feld
-         output[posX][posY] += 10;  //markiere als 2. mal betretenes Feld
-         return;
-      }
-
-      //links, rechts
-      if ((output[posX][posY + i] > 0) && (output[posX][posY + i]  < 10))  //wenn betretenes Feld
-      {
-         output[posX][posY] = -1;  //markiere als Sackgasse
-         posY += i;  //setze Position auf bereits betretenes Feld
-         output[posX][posY] += 10;  //markiere als 2. mal betretenes Feld
-         return;
-      }
-   }
+   
+   //Sackgasse!
+   //
+   // backwards simply following the Kiselsteine!
+   output[posX][posY] = -1;  //markiere als Sackgasse
+   backward ();
 }
 
 
