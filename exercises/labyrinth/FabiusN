@@ -79,7 +79,7 @@ void solve_labyrinth() //mache nächsten Schritt
 }
 
 
-void main()
+int main()
 {
    //erstelle output array
    for (int i = 0; i < 7; i++)
@@ -95,25 +95,27 @@ void main()
    {
       solve_labyrinth();
 
-      printf_s("\n");
+      printf("\n");
 
       //Ausgabe des Wegs
       for (int i = 0; i < 7; i++)
       {
          for (int j = 0; j < 7; j++)
          {
-            printf_s("%3d ", output[i][j]);
+            printf("%3d ", output[i][j]);
          }
-         printf_s("\n");
+         printf("\n");
       }
-      printf_s("posX: %d\n", posX);
-      printf_s("posY: %d\n", posY);
+      printf("posX: %d\n", posX);
+      printf("posY: %d\n", posY);
 
-      scanf_s("%c", &empty);
+      scanf("%c", &empty);
       
    } while (posX != endPosX || posY != endPosY);  //solange Position nicht erreicht
 
-   printf_s("\nDas angestrebte Ziel wurde erreicht.\n");
-   printf_s("Sie haben %d Schritte benoetigt.\n", stepCounter);
-   scanf_s("%c", &empty);
+   printf("\nDas angestrebte Ziel wurde erreicht.\n");
+   printf("Sie haben %d Schritte benoetigt.\n", stepCounter);
+   scanf("%c", &empty);
+   
+   return 0;
 }
