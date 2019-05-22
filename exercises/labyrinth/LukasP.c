@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define DIMX 4
+#define DIMY 5
+
 int labyrinth(int x, int y);
 
-int feld[4][5] = {
-         {0, 0, 0, 1, 0},
-         {1, 0, 0, 1, 0},
-         {0, 1, 0, 1, 0},
-         {0, 1, 0, 0, 0} };
+int feld[DIMX][DIMY] = {
+    {0, 0, 0, 1, 1},
+    {1, 0, 0, 1, 0},
+    {0, 1, 0, 1, 0},
+    {0, 1, 0, 0, 0} };
 
 
 int main()
@@ -18,36 +21,52 @@ int main()
 
 int labyrinth(int x, int y)
 {
-   if (feld[x + 1][y] == 0 && x + 1 < 5 && (rand() % 2) == 1 ) {
+   if (feld[x + 1][y] == 0 && x < DIMX - 1 && (rand() % 2) == 1 ) {
       x = x + 1;
-      feld[x + 1][y] = 2;
+      feld[x][y] = 2;
    }
-   else if (feld[x][y + 1] == 0 && y + 1 < 4 && (rand() % 2) == 1 ) {
+   else if (feld[x][y + 1] == 0 && y < DIMY - 1 && (rand() % 2) == 1 ) {
       y = y + 1;
-      feld[x][y + 1] = 2;
+      feld[x][y] = 2;
    }
    else if (feld[x - 1][y] == 0 && x - 1 > -1 && (rand() % 2) == 1) {
       x = x - 1;
-      feld[x - 1][y] = 2;
+      feld[x][y] = 2;
    }
    else if (feld[x][y - 1] == 0 && y - 1 > -1 && (rand() % 2) == 1) {
       y = y - 1;
-      feld[x][y - 1] = 2;
+      feld[x][y] = 2;
    }
-   else if( !(feld[x][y - 1] == 0 && y - 1 > -1) && !(feld[x - 1][y] == 0 && x - 1 > -1) && !(feld[x][y + 1] == 0 && y + 1 < 4) && !(feld[x + 1][y] == 0 && x + 1 < 5)) {
+   else if( !(feld[x][y - 1] == 0 && y - 1 > -1) &&
+            !(feld[x - 1][y] == 0 && x - 1 > -1) &&
+            !(feld[x][y + 1] == 0 && y < DIMY - 1) &&
+            !(feld[x + 1][y] == 0 && x < DIMX - 1))
+   {
       feld[x][y] = 1;
-      for (int z = 0; z < 5; z++) {
-         for (int z2 = 0; z2 < 4; z2++)
-         {
-            if (feld[z2][z] == 2) feld[z2][z] = 0;
-         }
+
+      if (feld[x][y - 1] == 2) {
+         y = y - 1;
       }
-      x = 0;
-      y = 4;
+      else if (feld[x][y + 1] == 2) {
+         y = y + 1;
+      }
+      else if (feld[x + 1][y] == 2) {
+         x = x + 1;
+      }
+      else if (feld[x - 1][y] == 2) {
+         x = x - 1;
+      }
+      else
+      {
+         printf("**** Fehler in Algoritm!\n");
+         return 0;
+      }
    }
-   printf("Positionen: x:%d | y:%d", x, y);
-   if (x != 0 || y != 0) return labyrinth(x, y);
-   else {
+   printf("Positionen: x:%d | y:%d\n", x, y);
+   if (x != 0 || y != 0)
+      return labyrinth(x, y);
+   else
+   {
       printf("Sucessful");
       return 1;
    }
