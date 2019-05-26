@@ -7,10 +7,10 @@ void show(const char ** dic, int * inde);
 int run = 1;
 int index2[N] =
 {
-   1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12
+   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
 };
 
-const char dicc[N][20] = {
+const char * dicc[] = {
    "paula",
    "schaut",
    "über",
