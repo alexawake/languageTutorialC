@@ -3,10 +3,11 @@
 #define width  3
 #define height  3
 
-//creating new datatype 
+//creating new datatype
 typedef struct {
    int x_position;
    int y_position;
+   int n_movement;
 }vektor;
 vektor koordinates;
 
@@ -14,6 +15,8 @@ vektor koordinates;
 vektor next_position(vektor koordinates);
 vektor check_surroundings(vektor koordinates);
 vektor move_backwards(vektor koordinates);
+char can_moveto (vektor koordinates, int incx, int incy)
+
 void print_field();
 
 //field declaration and initialization
@@ -44,50 +47,41 @@ vektor next_position(vektor koordinates)
    return next_position(koordinates);
 }
 
+char can_moveto (vektor koordinates, int incx, int incy)
+{
+   if (koordinates.x_position + incx < width &&
+       koordinates.y_position + incy < height)
+   {
+      if (field[koordinates.x_position + incx][koordinates.y_position + incy] == 0)
+      {
+         // move it!
+         koordinates.n_movement ++;
+         field[koordinates.x_position + incx][koordinates.y_position + incy] = koordinates.n_movement;
+         return 1;
+      }
+   }
+   return 0;
+}
 
 vektor check_surroundings(vektor koordinates)
 {
    print_field();
    //check right
-   if (koordinates.x_position != width)
-   {
-      if (field[koordinates.x_position + 1][koordinates.y_position] == 0)
-      { 
-         field[koordinates.x_position + 1][koordinates.y_position] = 9;
-         koordinates.x_position = koordinates.x_position + 1;
-         return koordinates;
-      }
-   }
+   if (can_moveto (koordinates, 1, 0))
+      return koordinates;
+
    //check downwards
-   if (koordinates.y_position != height)
-   {
-      if (field[koordinates.x_position][koordinates.y_position + 1] == 0)
-      {
-         field[koordinates.x_position][koordinates.y_position + 1] = 9;
-         koordinates.y_position = koordinates.y_position + 1;
-         return koordinates;
-      }
-   }
+   if (can_moveto (koordinates, 0, 1))
+      return koordinates;
+
    //check left
-   if (koordinates.x_position != 0)
-   {
-      if (field[koordinates.x_position - 1][koordinates.y_position] == 0)
-      {
-         field[koordinates.x_position - 1][koordinates.y_position] = 9;
-         koordinates.x_position -= 1;
-         return koordinates;
-      }
-   }
+   if (can_moveto (koordinates, -1, 0))
+      return koordinates;
+
    //check upwards
-   if (koordinates.y_position != 0)
-   {
-      if (field[koordinates.x_position][koordinates.y_position - 1] == 0)
-      {
-         field[koordinates.x_position][koordinates.y_position - 1] = 9;
-         koordinates.y_position -= 1;
-         return koordinates;
-      }
-   }
+   if (can_moveto (koordinates, 0, -1))
+      return koordinates;
+
    //ending condition
    if (koordinates.x_position == width - 1 && koordinates.y_position == height - 1)
    {
@@ -105,42 +99,44 @@ vektor check_surroundings(vektor koordinates)
 vektor move_backwards(vektor koordinates)
 {
    print_field();
+
+   koordinates.n_movement --;
+
    //check right
-   if (koordinates.x_position != width)
+   if (koordinates.x_position + 1 < width)
    {
-      if (field[koordinates.x_position + 1][koordinates.y_position] == 9)
+      if (field[koordinates.x_position + 1][koordinates.y_position] == koordinates.n_movement)
       {
-         field[koordinates.x_position + 1][koordinates.y_position] = 9;
          koordinates.x_position += 1;
          return koordinates;
       }
    }
+
    //check downwards
-   if (koordinates.y_position != height)
+   if (koordinates.y_position + 1 < height)
    {
-      if (field[koordinates.x_position][koordinates.y_position + 1] == 9)
+      if (field[koordinates.x_position][koordinates.y_position + 1] == koordinates.n_movement)
       {
-         field[koordinates.x_position][koordinates.y_position + 1] = 9;
          koordinates.y_position += 1;
          return koordinates;
       }
    }
+
    //check left
-   if (koordinates.x_position != 0)
+   if (koordinates.x_position > 0)
    {
-      if (field[koordinates.x_position - 1][koordinates.y_position] == 9)
+      if (field[koordinates.x_position - 1][koordinates.y_position] == koordinates.n_movement)
       {
-         field[koordinates.x_position - 1][koordinates.y_position] = 9;
          koordinates.x_position -= 1;
          return koordinates;
       }
    }
+
    //check upwards
    if (koordinates.y_position != 0)
    {
-      if (field[koordinates.x_position][koordinates.y_position - 1] == 9)
+      if (field[koordinates.x_position][koordinates.y_position - 1] == koordinates.n_movement)
       {
-         field[koordinates.x_position][koordinates.y_position - 1] = 9;
          koordinates.y_position -= 1;
          return koordinates;
       }
