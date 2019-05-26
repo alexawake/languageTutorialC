@@ -24,20 +24,20 @@ bool jump (int i, int k, int nmove)
 
    // Check if finished (8 * 8 = 64 movement)
    //
-   if (nmove >= DIM * DIM) 
+   if (nmove >= DIM * DIM)
       return true;
-   
+
    //printf ("do jump %d, %d\n", i, k);
-   
+
    // try all the possible ways recursively
    //
    if (jump(i-1, k-2, nmove+1) ||
        jump(i-2, k-1, nmove+1) ||
        jump(i-2, k+1, nmove+1) ||
        jump(i-1, k+2, nmove+1) ||
+       jump(i+2, k-1, nmove+1) ||
        jump(i+1, k+2, nmove+1) ||
        jump(i+2, k+1, nmove+1) ||
-       jump(i+2, k-1, nmove+1) ||
        jump(i+1, k-2, nmove+1)
       )
    {
@@ -78,6 +78,29 @@ int main (int nn, char ** aa)
        jump(i-2, k-1, nmove+1) ||
        jump(i-2, k+1, nmove+1) ||
        jump(i-1, k+2, nmove+1) ||
+       jump(i+2, k-1, nmove+1) ||
+       jump(i+1, k+2, nmove+1) ||
+       jump(i+2, k+1, nmove+1) ||
+       jump(i+1, k-2, nmove+1)
+      )
+
+solution found with 10941.215 thousand backward moves!
+  1 12  9  6  3 16 23 20
+  8  5  2 11 22 19 48 17
+ 13 10  7  4 15 24 21 50
+ 28 37 14 45 30 49 18 47
+ 41 32 29 36 25 46 51 60
+ 38 27 40 31 44 59 54 57
+ 33 42 63 26 35 56 61 52
+ 64 39 34 43 62 53 58 55
+
+
+----------- try using
+
+   if (jump(i-1, k-2, nmove+1) ||
+       jump(i-2, k-1, nmove+1) ||
+       jump(i-2, k+1, nmove+1) ||
+       jump(i-1, k+2, nmove+1) ||
        jump(i+1, k+2, nmove+1) ||
        jump(i+2, k+1, nmove+1) ||
        jump(i+2, k-1, nmove+1) ||
@@ -92,7 +115,7 @@ solution found with 251825.344 thousand backward moves!
  40 57 42 61 32 35 48 21
  55 44 59 50 37 46 31 34
  58 41 56 45 60 49 36 47
- 
+
 ----------- try using
 
    if (jump(i-1, k-2, nmove+1) ||
@@ -103,8 +126,9 @@ solution found with 251825.344 thousand backward moves!
        jump(i+2, k+1, nmove+1) ||
        jump(i+2, k-1, nmove+1) ||
        jump(i+1, k-2, nmove+1)
-       
-       
+
+
    too much computation, will it stop ... ?
 
 */
+
