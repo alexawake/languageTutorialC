@@ -1,34 +1,37 @@
 #include <stdio.h>
 
-main()
+int feld[4][5] =
 {
+   { 0, 0, 0, 1, 0 },
+   { 1, 0, 0, 1, 0 },
+   { 0, 1, 0, 1, 0 },
+   { 0, 1, 0, 0, 0 }
+};
 
-   int feld[4][5] =
-   {
-      { 0, 0, 0, 1, 0 },
-      { 1, 0, 0, 1, 0 },
-      { 0, 1, 0, 1, 0 },
-      { 0, 1, 0, 0, 0 }
-   };
+int feld_offen[4][5] = { 2 };
 
-   int feld_offen[4][5] = { 2 };
+//momentaner Standort
+int v = 0;
+int h = 0;
 
-   //momentaner Standort
-   int v = 0;
-   int h = 0;
-   int hn, vn;
+void schritt ()
+{
+   int hn = h, vn = v;
    int eingabe;
 
    //Schritteingabe mit dem Nummernfeld
    printf("Geben Sie ihren nächsten Schritt ein");
-   scanf_s("%d", &eingabe);
+   scanf("%d", &eingabe);
    switch (eingabe)
        {
-      case 6: hn = h + 1;
-      case 4: hn = h - 1;
-      case 2: vn = v - 1;
-      case 8: vn = v + 1;
-      default: printf("Ungültige Eingabe");
+      case 6: hn = h + 1; break;
+      case 4: hn = h - 1; break;
+      case 2: vn = v - 1; break;
+      case 8: vn = v + 1; break;
+      default: {
+             printf("Ungültige Eingabe\n");
+             return;
+            }
        }
 
    //Prüfen, ob Schritt möglich ist
@@ -44,7 +47,7 @@ main()
       v = vn;
       printf("Sie sind ein Feld weiter gelaufen");
       feld_offen[vn][hn] = 0;
-      printf("%d", feld_offen);
+      //printf("%d", feld_offen);
    }
 
    if (feld[vn][hn] == 1)
@@ -53,7 +56,13 @@ main()
       v = vn;
       printf("Dieser Schritt war falsch");
       feld_offen[vn][hn] = 1;
-      printf("%d", feld_offen);
+      //printf("%d", feld_offen);
    }
-   system("pause");
+}
+
+int main()
+{
+   while (1)
+      schritt ();
+   return 0;
 }
