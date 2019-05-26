@@ -1,7 +1,7 @@
 #include <stdio.h>
 
-#define width  3
-#define height  3
+#define width   10
+#define height  10
 
 //creating new datatype
 typedef struct {
@@ -12,19 +12,26 @@ typedef struct {
 vektor koordinates;
 
 //forward initialization
-vektor next_position(vektor koordinates);
-vektor check_surroundings(vektor koordinates);
-vektor move_backwards(vektor koordinates);
-char can_moveto (vektor koordinates, int incx, int incy)
+vektor next_position       (vektor koordinates);
+vektor check_surroundings  (vektor koordinates);
+vektor move_backwards      (vektor koordinates);
+char can_moveto            (vektor * koordinates, int incx, int incy);
 
 void print_field();
 
 //field declaration and initialization
-int field[width][height] = {
-   9, 1, 0,
-   0, 0, 1,
-   1, 0, 0
-};
+int field [width][height] = {
+   { 0, 1, 0, 0, 0, 0, 0, 1, 0, 0 },
+   { 0, 0, 0, 1, 0, 1, 0, 0, 0, 0 },
+   { 1, 0, 1, 0, 0, 1, 0, 0, 1, 0 },
+   { 0, 0, 0, 1, 0, 0, 0, 0, 0, 0 },
+   { 0, 1, 1, 0, 0, 0, 1, 1, 0, 1 },
+   { 0, 0, 0, 0, 0, 0, 1, 1, 0, 0 },
+   { 1, 0, 0, 0, 0, 1, 1, 0, 1, 0 },
+   { 0, 1, 0, 1, 0, 0, 0, 0, 1, 0 },
+   { 0, 0, 0, 1, 1, 1, 1, 1, 0, 0 },
+   { 0, 0, 0, 0, 0, 0, 1, 0, 0, 0 },
+   };
 
 
 int main(void)
@@ -32,6 +39,7 @@ int main(void)
    print_field();
    koordinates.x_position = 0;
    koordinates.y_position = 0;
+   koordinates.n_movement = 10;
    next_position(koordinates);
    print_field();
 }
@@ -43,20 +51,25 @@ vektor next_position(vektor koordinates)
    {
       return koordinates;
    }
-   check_surroundings(koordinates);
-   return next_position(koordinates);
+   vektor coord = check_surroundings(koordinates);
+   return next_position(coord);
 }
 
-char can_moveto (vektor koordinates, int incx, int incy)
+char can_moveto (vektor * koordinates, int incx, int incy)
 {
-   if (koordinates.x_position + incx < width &&
-       koordinates.y_position + incy < height)
+   if (koordinates->x_position + incx < width &&
+       koordinates->y_position + incy < height && 
+       koordinates->x_position + incx >= 0 &&
+       koordinates->y_position + incy >= 0
+       )
    {
-      if (field[koordinates.x_position + incx][koordinates.y_position + incy] == 0)
+      if (field[koordinates->x_position + incx][koordinates->y_position + incy] == 0)
       {
          // move it!
-         koordinates.n_movement ++;
-         field[koordinates.x_position + incx][koordinates.y_position + incy] = koordinates.n_movement;
+         koordinates->n_movement ++;
+         koordinates->x_position += incx;
+         koordinates->y_position += incy;
+         field[koordinates->x_position][koordinates->y_position] = koordinates->n_movement;
          return 1;
       }
    }
@@ -67,33 +80,24 @@ vektor check_surroundings(vektor koordinates)
 {
    print_field();
    //check right
-   if (can_moveto (koordinates, 1, 0))
+   if (can_moveto (& koordinates, 1, 0))
       return koordinates;
 
    //check downwards
-   if (can_moveto (koordinates, 0, 1))
+   if (can_moveto (& koordinates, 0, 1))
       return koordinates;
 
    //check left
-   if (can_moveto (koordinates, -1, 0))
+   if (can_moveto (& koordinates, -1, 0))
       return koordinates;
 
    //check upwards
-   if (can_moveto (koordinates, 0, -1))
+   if (can_moveto (& koordinates, 0, -1))
       return koordinates;
 
-   //ending condition
-   if (koordinates.x_position == width - 1 && koordinates.y_position == height - 1)
-   {
-      return koordinates;
-   }
-   else
-   {
-      //No way!
-      field[koordinates.x_position][koordinates.y_position] = 1;
-      move_backwards(koordinates);
-      return koordinates;
-   }
+   //No way!
+   field[koordinates.x_position][koordinates.y_position] = -1;
+   return move_backwards (koordinates);
 }
 
 vektor move_backwards(vektor koordinates)
@@ -141,6 +145,9 @@ vektor move_backwards(vektor koordinates)
          return koordinates;
       }
    }
+   
+   printf ("*** ERROR: cannot move_backwards (%d, %d, %d)\n", koordinates.x_position, koordinates.y_position, koordinates.n_movement);
+   return koordinates;
 }
 
 
@@ -152,7 +159,7 @@ void print_field()
    {
       for (int j = 0; j < width; j++)
       {
-         printf("  %d", field[i][j]);
+         printf(" %3d", field[i][j]);
       }
       printf("\n");
    }
